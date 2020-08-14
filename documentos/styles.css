@@ -1,0 +1,118 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body{
+    display: flex;
+}
+a{
+    color: goldenrod;
+}
+article{
+    margin: 1rem;
+}
+.menu-size{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgb(20, 20, 20);
+    min-width: 20vw;
+    max-width: 600px;
+    height: 100vh;
+}
+.menu-size a{
+    font-size: 2rem;
+    font-weight: 100;
+}
+.menu-size a:hover{
+    color: rgb(255, 183, 0);
+}
+.container-fluid{
+    overflow: scroll;
+    width: 100%;
+    height: 100vh;
+}
+
+
+
+/* Slider */
+header a{
+    color:whitesmoke;
+    text-decoration:none;
+    }
+    header a:hover{
+    color:#ddd;
+    }
+    #slider{
+    margin:150px auto;
+    box-shadow: 0 .1em 1em black;
+    -webkit-box-shadow: 0 .1em 1em black;
+    -moz-box-shadow: 0 .1em 1em black;
+    -o-box-shadow: 0 .1em 1em black;
+    }
+     
+     
+    /* ESTILOS DEL SLIDESHOW */
+     
+    ul.bjqs{position:relative; list-style:none;padding:0;margin:0;overflow:hidden; display:none;}
+    li.bjqs-slide{position:absolute; display:none;}
+    ul.bjqs-controls{list-style:none;margin:0;padding:0;z-index:9999;}
+    ul.bjqs-controls.v-centered li a{position:absolute;}
+    ul.bjqs-controls.v-centered li.bjqs-next a{right:0;}
+    ul.bjqs-controls.v-centered li.bjqs-prev a{left:0;}
+    ol.bjqs-markers{list-style: none; padding: 0; margin: 0; width:100%;}
+    ol.bjqs-markers.h-centered{text-align: center;}
+    ol.bjqs-markers li{display:inline;}
+    ol.bjqs-markers li a{display:inline-block;}
+    p.bjqs-caption{display:block;width:96%;margin:0;padding:2%;position:absolute;bottom:0;}
+     
+     
+    .bjqs-caption{
+    color:black;
+    background:whitesmoke;
+    opacity:.75;
+    }
+     
+    /* BOTONERA UBICADA AL PIE DEL SLIDESHOW */
+    ol.bjqs-markers{
+    margin-top:35px;
+    }
+    ol.bjqs-markers li a{
+    padding: 5px 10px;
+    background: #000;
+    color: #fff;
+    margin: 5px;
+    text-decoration: none;
+    transition:background .5s ease;
+    -webkit-transition:background .5s ease;
+    -moz-transition:background .5s ease;
+    -o-transition:background .5s ease;
+    }
+    li.active-marker a, ol.bjqs-markers li a:hover{
+    background:gray!important;
+    }
+     
+    /* CONTROLES ATRAS Y ADELANTE */
+    ul.bjqs-controls.v-centered li a {
+    display: block;
+    padding: 10px;
+    background: whitesmoke;
+    color: #000;
+    text-decoration: none;
+    opacity:.75;
+     
+    transition:color .5s ease, background .5s ease;
+    -webkit-transition:color .5s ease, background .5s ease;
+    -moz-transition:color .5s ease, background .5s ease;
+    -o-transition:color .5s ease, background .5s ease;
+    }
+    ul.bjqs-controls.v-centered li a:hover{
+        background:#000;
+        color:#fff;
+    }
+    
+
+    .label{
+        font-weight: 500;
+    }

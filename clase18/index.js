@@ -1,0 +1,1 @@
+$(document).ready(()=>$(".question").click(()=>$(this.childNodes[3]).toggle("fast")));

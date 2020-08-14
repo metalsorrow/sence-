@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KeyLog</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>KeyLogs</h1>
+    <div id="root">
+    </div>
+
+    <script>
+        document.addEventListener('keydown', (e) => {
+
+            const newDiv = document.createElement("div");
+            const elements = [
+                {type:"p", text: "============================"},
+                {type:"br"},
+                {type:"p", text: `Tecla: ${e.key}`},
+                {type:"br"},
+                {type:"p", text: `Codigo ascii: ${e.keyCode}`},
+                {type:"br"},
+                {type:"p", text: "============================"},
+            ]
+
+            elements.map( el => {
+                const node = document.createElement(el.type);
+                if(el["text"] != undefined){
+                    console.log(el)
+                    node.innerText = el.text;
+                }
+                newDiv.appendChild(node)
+            })
+
+
+            const root = document.getElementById('root');
+            document.body.insertBefore(newDiv,root);
+            
+        })  
+    </script>
+</body>
+</html>

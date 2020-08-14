@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <p>form</p>
+    <form id='form' >
+        <input type="text" placeholder="nombre" name="nombre" id="nombre"> <br><br>
+        <input type="text" placeholder="apellido" name="apellido" id="apellido">
+        <button type="button" value="enviar" onclick="validar()">Enviar</button>
+    </form>
+    <p id="main"></p>
+
+    <script>
+        
+
+        function validar(){
+            
+            const form = document.forms["form"];
+            let mensaje = 'inputs: </br>';
+
+            for (let clave in form){
+                if (form.hasOwnProperty(clave)) {
+                    mensaje += `${form[clave].value} </br>`
+                    console.log(form[clave].value)
+                }
+            }
+
+            document.getElementById('main').innerHTML = mensaje;
+            return true;
+        }
+    </script>
+</body>
+</html>
+

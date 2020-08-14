@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Courier New', Courier, monospace;
+        }
+        nav{
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            background-color: rgb(204, 204, 204);
+            padding: 20px;
+        }
+        a{
+            color: black;
+            text-decoration: none;
+        }
+        li{
+            list-style: none;
+        }
+
+        #servicios{
+            position: relative;
+        }
+        .btn{
+            border-radius: 5px;
+            padding: 10px;
+            background-color: rgb(170, 255, 203);
+            border: 1px solid black;
+        }
+        .hijos{
+            padding: 2px;
+            background-color: rgb(255, 206, 82);
+        }
+
+        .container_wrap{
+            display: none;
+            top: 58px;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a class="btn" href="">INICIO</a>
+
+        <div id="container-servicios" onmouseover="menuOn()" onmouseout="menuOff()" >
+            <a href="" class="btn" id="servicios"  >SERVICIOS</a>
+            <ul class="container_wrap">
+                <li class="hijos">
+                    <a href="">Subseccion 1</a>
+                </li>
+                <li class="hijos">
+                    <a href="">Subseccion 2</a>
+                </li>
+                <li class="hijos">
+                    <a href="">Subseccion 3</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <script>
+        const buttonService = document.getElementById('servicios');
+        const containerWrap = document.getElementsByClassName('container_wrap');
+     
+        function menuOff(){
+            containerWrap[0].style.display = "none";
+        }
+     
+        function menuOn() {
+            containerWrap[0].style.display = "block";
+            containerWrap[0].style.position = "absolute";
+        }
+    
+    </script>
+</body>
+</html>
+

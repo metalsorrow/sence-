@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+    integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous" />
+  <title>ev1 - marcos fuentes</title>
+  <style>
+    html {
+        scroll-behavior: smooth;
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light bg-dark">
+    <div class="container">
+      <a class="navbar-brand text-white" href="#">Navbar</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link text-white" href="#calcularProducto">Productos <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white" href="#calcularPromedio">Calcular Promedio</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white" href="#enviarEmp">Formulario Empleado</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+
+
+
+
+
+
+
+  <a id="calcularProducto" href=""></a>
+  <div class="container my-5 ">
+    <div class="row">
+      <div class="col-10 m-auto">
+        <h2>Productos</h2>
+        <form class="mt-5" id="formProduct" method="POST">
+            <table class="table table-dark">
+                <thead>
+                  <tr>
+                    <th scope="col">Tienda Computacion</th>
+                    <th scope="col">15% de descuento sobre compras superiores a $1.000.000</th>
+                    <th scope="col"></th>
+
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">Productos</th>
+                    <th scope="row">Precio</th>
+                    <th scope="row">Cantidad</th>
+                  </tr>
+                  <tr>
+                    <th scope="row">Placa Madre Intel</th>
+                    <td>$150.000</td>
+                    <td>
+                        <div class="form-group">
+                            <input type="number" min="0" value="0" class="form-control" />
+                        </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Disco Duro 500GB</th>
+                    <td>$30.000</td>
+                    <td>
+                        <div class="form-group">
+                            <input type="number" min="0" value="0" class="form-control"  />
+                        </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Memoria DDR3 2GB</th>
+                    <td>$15.000</td>
+                    <td>
+                        <div class="form-group">
+                            <input type="number" min="0" value="0" class="form-control"  />
+                        </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Gabinete ATX</th>
+                    <td>$20.000</td>
+                    <td>
+                        <div class="form-group">
+                            <input type="number" min="0" value="0" class="form-control"  />
+                        </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row"></th>
+                    <td>Descuento 15%</td>
+                    <td>
+                        <div class="form-group">
+                            <input disabled value="-" type="text" class="form-control bg-dark text-light" />
+                        </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row"></th>
+                    <td>PRECIO NETO</td>
+                    <td>
+                        <div class="form-group">
+                            <input disabled value="-" type="text" class="form-control bg-dark text-light" />
+                        </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row"></th>
+                    <td>PRECIO NETO CON DESCUENTO</td>
+                    <td>
+                        <div class="form-group">
+                            <input disabled value="-" type="text" class="form-control bg-dark text-light" />
+                        </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row"></th>
+                    <td>PRECIO TOTAL CON IVA</td>
+                    <td>
+                        <div class="form-group">
+                            <input disabled value="-" type="text" class="form-control bg-dark text-light" />
+                        </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                        <button type="submit" class="btn btn-primary">Calcular</button>
+                    </td>
+                    <td>
+                        <button type="reset" class="btn btn-primary">Limpiar</button>
+                    </td>
+                  </tr>
+                </tbody>
+            </table>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+  <a id="calcularPromedio" href=""></a>
+  <div class="container my-5 py-5 ">
+    <div class="row">
+      <div class="col-4 m-auto">
+        <h2>Calcular promedio</h2>
+        <form class="mt-5" id="formPromedio" method="POST">
+          <div class="form-group">
+            <label for="nota1" class="col-form-label">Nota 1</label>
+            <input type="text" class="form-control" name="nota1" id="nota1" placeholder="6.0" />
+          </div>
+          <div class="form-group">
+            <label for="nota2" class="col-form-label">Nota 2</label>
+            <input type="text" class="form-control" name="nota2" id="nota2" placeholder="6.0" />
+          </div>
+          <div class="form-group">
+            <label for="nota3" class="col-form-label">Nota 3</label>
+            <input type="text" class="form-control" name="nota3" id="nota3" placeholder="6.0" />
+          </div>
+          <div class="form-group">
+            <label for="mensaje" class="col-form-label">Mensaje:</label>
+            <textarea type="text" class="form-control" name="mensaje" id="mensaje" disabled  rows="5"> </textarea>
+          </div>
+          <div class="form-group">
+            <label for="resProm" class="col-form-label">Promedio:</label>
+            <input type="text" value="-" class="form-control" name="resProm" id="resProm" disabled />
+          </div>
+
+          <span class="badge badge-danger" id="error"></span> <br> <br>
+          <button type="submit" class="btn btn-primary">Calcular</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+  <a id="enviarEmp" href=""></a>
+  <div class="container my-5 ">
+    <div  class="row">
+      <div class="col-5 m-auto">
+        <h2>Enviar Empleado</h2>
+        <form class="mt-5" id="formEmp" method="POST" action="ok.html">
+          <div class="form-group">
+            <label for="Nombre" class="col-form-label">Nombre</label>
+            <input type="text" class="form-control" name="Nombre" placeholder="Jose" />
+          </div>
+          <div class="form-group">
+            <label for="Apellido" class="col-form-label">Apellido</label>
+            <input type="text" class="form-control" name="Apellido" placeholder="Alvarez" />
+          </div>
+          <div class="form-group">
+            <label for="Run" class="col-form-label">Run</label>
+            <input type="text" class="form-control" name="Run" placeholder="12.345.678-9" />
+          </div>
+
+          <div class="row">
+            <div class="form-group col-6">
+                <label for="exampleFormControlTextarea1">Edad</label>
+                <input type="text" class="form-control" name="Edad" />
+            </div>
+            <div class="form-group col-md-6">
+                <label for="inputState">Estado Civil</label>
+                <select id="inputState" class="form-control">
+                    <option selected>Casado</option>
+                    <option>Viudo</option>
+                    <option>Soltero</option>
+                </select>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="form-group col-md-6">
+                <label for="inputState">Locomoción</label>
+                <select id="inputState" class="form-control">
+                  <option selected>Auto</option>
+                  <option>Moto</option>
+                  <option>Micro</option>
+                  <option>Metro</option>
+                  <option>Taxi</option>
+                </select>
+              </div>
+              <div class="form-group col-md-6">
+                <label for="inputState">Sexo</label>
+                <select id="inputState" class="form-control">
+                  <option selected>Hombre</option>
+                  <option>Mujer</option>
+                </select>
+              </div>
+          </div>
+
+
+          <span class="badge badge-danger" id="error"></span> <br> <br>
+          <button type="submit" class="btn btn-primary">Enviar</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="index.js"></script>
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+    integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+    crossorigin="anonymous"></script>
+</body>
+
+</html>

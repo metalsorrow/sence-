@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KeyLog</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            color: black;
+        }
+        .container{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100vw;
+            height: 100vh;
+        }
+        .panel, .aleta {
+            padding: 5px;
+            text-align: center;
+            background-color: goldenrod;
+            border: solid 1px black;
+        }
+        .panel{
+            padding: 50px;
+            display: none;
+        }
+        .div1{
+            width: 200px;
+            height: 50px;
+            display: none;
+            background-color: blueviolet;
+        }
+        .div2{
+            width: 200px;
+            height: 50px;
+            display: none;
+            background-color: gold;
+        }
+        .div3{
+            width: 200px;
+            height: 50px;
+            display: none;
+            background-color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Bienvenido</h1>
+        <div id="root"> 
+            <p class="myp">Hermoso parrafo</p>
+            <button class="btn">Btn</button>
+
+
+
+            <button class="btn btn-fade">FADE</button>
+            <div class="div1"></div>
+            <div class="div2"></div>
+            <div class="div3"></div>
+
+            <div class="aleta">Click en el panel</div>
+            <div class="panel">Jquery uwu</div>
+
+        </div>
+    </div>
+
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<!-- Popper JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<script src="index.js" ></script>
+<script src="function.js" ></script>
+<script src="fade.js" ></script>
+</body>
+</html>

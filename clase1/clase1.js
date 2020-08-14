@@ -1,0 +1,10 @@
+var a = prompt("Ingresar Valor A:")
+var b = prompt("Ingresar Valor B:")
+a = Number(a)
+b = Number(b)
+
+document.write(`La suma de A y B es: ${a+b} </br>`)
+document.write(`La resta de A y B es: ${a-b} </br>`)
+document.write(`La multiplicacion de A y B es: ${a*b} </br>`)
+document.write(`La division de A y B es: ${a/b} </br>`)
+document.write(`La mod de A y B es: ${a%b} </br>`)
