@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Promise</title>
+</head>
+<body>
+    <main id="main">
+
+    </main>
+</body>
+<script>
+const Persona = function(nombre, edad, ciudad) {
+    this.nombre = nombre;
+    this.edad = edad;
+    this.ciudad = ciudad;
+}
+
+
+
+const miPromesa = ( user ) => {
+    console.log('Iniciando promesa')
+    return new Promise((res, rej) => {
+        console.log('Ejecutando promesa')
+        setTimeout(() => {
+            console.log('Promesa lista')
+            if(!user) return rej(Error("No user"))
+            res({...user})
+        },1000)
+    })
+} 
+
+const user = new Persona('Marcos', 23, 'santiago');
+
+miPromesa(user)
+    .then(res => 
+        console.log(res)
+    )
+    .catch( err => 
+        console.error(err)
+    )
+</script>
+</html>

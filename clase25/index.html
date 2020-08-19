@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>proto</title>
+</head>
+<body>
+    <main id="main">
+
+    </main>
+</body>
+<script>
+    //Prototype
+    function Persona() {
+        Persona.prototype.nombre = "Marcos";
+        Persona.prototype.edad = 23;
+        Persona.prototype.saludar = () => {
+            document.getElementById("main").innerHTML = `mi nombre es ${this.nombre}`;
+        }
+    }
+
+
+    const marcos = new Persona();
+    marcos.saludar();
+</script>
+</html>
