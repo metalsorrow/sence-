@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <title>Document</title>
+    <style> 
+        li{list-style: none;}
+        img{
+            position: absolute;
+            z-index: 0;
+            width: 100%;
+            opacity: 0.3;
+        }
+    </style>
+</head>
+<body>
+    <div id="app" >
+        <!-- <img v-bind:src="image"> -->
+        <!-- <div class="container p-5">
+            <h1>{{mensaje}}</h1>
+            <a v-bind:href="google" target="_blank">Click ir a Google</a>
+            
+            <ul class="row bg-dark">
+                <li v-for=" social in socials" class="col">
+                    <a v-bind:href="social.link" class="font-weight-bold">
+                        {{social.name}}
+                    </a>
+                </li>
+            </ul>
+            <div class="row">
+                <h1 class="col-12">alksjhfkl</h1>
+                <input class="col-3" type="range" v-model="fuente" min="10" max="100"> {{fuente}}
+                <p class="col-3" v-bind:style="{'font-size': fuente+'px'}"> Vue</p>
+            </div>
+            <div class="row">
+                <p class="col">ingresar una edad:</p>
+                <input class="col" type="number" v-model="edad">
+                <p class="col" v-if="edad>=18"  type="number">
+                    eres mayor de edad
+                </p>
+            </div>
+            <div class="row">
+                <p v-if="inventario >10">En stock</p>
+                <p v-else-if="inventario <= 10 && inventario >0">Algunos en stock</p>
+                <p v-else>Productos vendidos</p>
+            </div>
+            
+        </div> -->
+
+        <div class="container-fluid p-5 bg-light">
+            <hr>
+            <h1>Buttons</h1>
+
+            <div class="row w-50 m-auto">
+                <button class="col-6 btn btn-primary"  v-on:click="button_state = 'like'" > like </button>
+                <button class="col-6 btn btn-danger" v-on:click="button_state = 'notLike'" > notLike </button>
+                <p class="mt-3 col-12">Boton: {{button_state}}</p>
+            </div>
+            <hr>
+            <h2>Numbers</h2>
+            <div class="row">
+                <p class="col-4">Ingresar un valor entre 1 y 100 </p>
+                <input class="col-2" min="0" max="100" type="number" v-model="number" onkeydown="return false" >
+                <p class="col-10 bg-success text-with p-2 m-1" v-if="number" type="text">Tiene {{number.length}} digitos</p>
+            </div>
+        </div>
+
+
+    </div>              
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
