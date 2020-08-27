@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CompuMath</title>
+    <!-- Latest compiled and minified CSS -->
+
+    <link rel="stylesheet" href="https://m
+    axcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar navbar-dark bg-dark ">
+        <a class="navbar-brand" href="#">CompuMath</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+          <div class="navbar-nav">
+            <a class="nav-link menu-a" href="#home">home</a>
+            <a class="nav-link menu-a" href="#presupuesto">presupuesto</a>
+            <a class="nav-link menu-a" href="#contact">contact</a>
+          </div>
+        </div>
+      </nav>
+    <main class="container-fluid container-alt">
+        <article id="home" class="container">
+            <div class="row">
+                <div class="col-12 text-white bg-dark p-3">
+                    <h1 class="text-center">CompuMath</h1>
+                </div>
+            </div>
+
+            <div class="row m-5 justify-content-around">
+                <div id="slider" class="col-12 col-md-5">
+                    <ul class="bjqs">
+                    <li>
+                        <img src="img/pcb1.jpg" alt="pc1"  />
+                        </li>
+                        <li>
+                            <img src="img/pcb2.jpg" alt="pc2" />
+                        </li>
+                        <li>
+                            <img src="img/pcb3.jpg" alt="pc3" title="" />
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-12 col-md-5">
+                    <h2>Servicios</h2>
+                    <p>Pagina enfocada a la venta de computadores y cotizacion de dichos productos tecnologicos.</p>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit necessitatibus adipisci repellendus dignissimos maxime reiciendis consectetur, magni vero neque ex?<p>
+                    <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nobis modi perferendis natus adipisci iste at sunt quibusdam quo iure labore a repellat aliquid, tempora deserunt quos nisi sequi officiis tempore pariatur ipsum asperiores voluptatem. Itaque molestias enim vel hic laudantium?</p>
+                </div>
+            </div>
+            <div class="row justify-content-around">
+                <article class="drop col-12 col-sm-3">
+                    <h2>
+                        Nuestros ideales
+                    </h2>
+                    <div class="desc bg-secondary text-white p-2 rounded">
+                        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Autem, modi?</p>
+                    </div>
+                </article>
+                <article class="drop col-12 col-sm-3">
+                    <h2>
+                        Compromisos
+                    </h2>
+                    <div class="desc bg-secondary text-white p-2 rounded">
+                        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Autem, modi?</p>
+                    </div>
+                </article>
+                <article class="drop col-12 col-sm-3">
+                    <h2>
+                        Productos   
+                    </h2>
+                    <div class="desc bg-secondary text-white p-2 rounded">
+                        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Autem, modi?</p>
+                    </div>
+                </article>
+            </div>
+        </article>
+        <article id="presupuesto" class="container">
+            <div class="row mb-5">
+                <h2 class="col-12 text-white bg-dark p-3">Calcula tu presupuesto</h2>
+                <hr>
+                <div class="col">
+                    <p>Ingresa el valor total de tu producto para poder obtener un detalle de cuanto puedes ahorrar dependiendo de el total de tu compra!</p>
+                    <p>Este resultado se debe tomar de forma referencial para luego realizar tu compra</p>
+                </div>
+            </div>
+            <div class="row">
+                <form id="form-cotizar" class="col-6" action="#" method="post">
+                    <div class="form-group">
+                        <label class="label" for="total">Total</label>
+                        <input type="number" value="0" min="0" name="total" class="form-control" required itemref="" placeholder="Ingresar total de tu idea de Compra!">
+                    </div>
+            
+                    <div class="form-group hidden">
+                        <label class="label" for="nuevoTotal">Monto a pagar con descuento!</label>
+                        <input type="text" name="nuevoTotal" class="form-control" id="nuevoTotal" disabled>
+                    </div>
+            
+                    <div class="form-group hidden">
+                        <label class="label" for="descuento">Descuento</label>
+                        <input type="text" name="descuento" class="form-control" id="descuento" disabled>
+                    </div>
+
+            
+
+                    <button type="submit" class=" btn btn-success">Cotizar</button>
+                    <button type="reset" class=" btn btn-light">Limpiar</button>
+                </form>
+
+                <table class="table table-sm col-6 p-2">
+                    <thead>
+                        <tr>
+                            <th>Monto minimo</th>
+                            <th>Descuento</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>$150.000</td>
+                            <td class="table-success">20%</td>
+                        </tr>
+                        <tr>
+                            <td>$120.000</td>
+                            <td class="table-info">15%</td>
+                            
+                        </tr>
+                        <tr>
+                            <td>$100.000</td>
+                            <td class="table-info">13%</td>
+                        </tr>
+                        <tr>
+                            <td>$80.000</td>
+                            <td class="table-secondary">10%</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+
+        </article>
+        <article id="contact" class="contact container my-5">
+            <div class="row">
+                <h2 class="col-12 text-white bg-dark p-3">Contacto</h2>
+            </div>
+            <form id="form-contact" action="#" method="post">
+                <div class="form-group">
+                    <label class="label" for="nombre">Nombre</label>
+                    <input type="text" name="nombre" class="form-control" required id="nombre" placeholder="nombre">
+                </div>
+                <div class="form-group">
+                  <label class="label" for="email">Email</label>
+                  <input type="email" class="form-control" name="email" required id="email" aria-describedby="emailHelp" placeholder="gmail@gmail.com">
+                </div>
+                <div class="form-group">
+                    <label class="label" for="telefono">Telefono</label>
+                    <input type="number" class="form-control" name="telefono" required id="telefono" placeholder="12354567">
+                </div>
+                <div class="form-group">
+                    <label class="label" for="mensaje">Mensaje</label>
+                    <textarea class="form-control" name="mensaje" id="mensaje" required maxlength="200" ></textarea>
+                </div>
+
+                <button type="submit" class=" btn btn-warning">Enviar</button>
+              </form>
+
+        </article>
+        <footer class="container text-white bg-dark p-2">
+            <div class="row">
+                <p class="col-6 text-center">
+                    Todos los derechos reservados
+                </p>
+                <p class="col-6 text-center">
+                    developed by 
+                    <a href="https://github.com/metalsorrow">metal</a>
+                </p>
+            </div>
+        </footer>
+    </main>
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<!-- Popper JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<script src="bjqs.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.2/jquery.validate.min.js"></script>
+<!-- <script src="scroll.js"></script> -->
+<script src="script.js"></script>
+<script src="estudiante.js"></script>
+</body>
+</html>
