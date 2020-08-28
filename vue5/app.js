@@ -20,36 +20,12 @@ const app = new Vue({
             {img: './doggo2.jpg', name: 'doggo super bonito'},
             {img: './doggo3.jpg', name: 'doggo'},
         ],
-        imgDog: null,
-
-        inputs: [0,0],
-        res: 0,
-        count: 0
+        imgDog: null
     },
     methods:{
         changeImage: function(img){
             this.imgDog = img;
-        },
-        add: function(){
-            this.res = this.inputs[0] + this.inputs[1];
-        },
-        subs: function(){
-            this.res = this.inputs[0] - this.inputs[1];
-        },
-        div: function(){
-            let res = this.inputs[0] / this.inputs[1];
-            isNaN(res) ? null : this.res = res;
-        },
-        mult: function(){
-            this.res = this.inputs[0] * this.inputs[1];
-        },
-        countUp: function(){
-            this.count++;
-        },
-        restart: function(){
-            this.count=0;
         }
     }
     
-
 })

@@ -6,22 +6,128 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     <title>Document</title>
     <style>
+        .wordart {
+  font-family: Arial, sans-serif;
+  font-size: 4em;
+  font-weight: bold;
+  position: relative;
+  z-index: 1;
+  display: inline-block;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.wordart.tilt {
+    display: inline-block;
+    transform: scaleY(2) perspective(1em) rotateX(15deg) translate3d(-19%, -14%, -0.4em);
+    -webkit-transform: scaleY(2) perspective(1em) rotateX(15deg) translate3d(-19%, -14%, -0.4em);
+    -moz-transform: scaleY(2) perspective(1em) rotateX(15deg) translate3d(-19%, -14%, -0.4em);
+    -o-transform: scaleY(2) perspective(1em) rotateX(15deg) translate3d(-19%, -14%, -0.4em);
+    -ms-transform: scaleY(2) perspective(1em) rotateX(15deg) translate3d(-19%, -14%, -0.4em);
+}
+
+.wordart.tilt .text {
+    font-family: Arial, sans-serif;
+    font-weight: bold;
+    background: #390c0b;
+    background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJod…IgaGVpZ2h0PSIxIiBmaWxsPSJ1cmwoI2dyYWQtdWNnZy1nZW5lcmF0ZWQpIiAvPgo8L3N2Zz4=);
+    background: -moz-linear-gradient(top, #390c0b 0%, #f6bf28 73%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #390c0b), color-stop(73%, #f6bf28));
+    background: -webkit-linear-gradient(top, #390c0b 0%, #f6bf28 73%);
+    background: -o-linear-gradient(top, #390c0b 0%, #f6bf28 73%);
+    background: -ms-linear-gradient(top, #390c0b 0%, #f6bf28 73%);
+    background: linear-gradient(to bottom, #390c0b 0%, #f6bf28 73%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#390c0b', endColorstr='#f6bf28', GradientType=0);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: -0.01em;
+    -webkit-text-stroke: 0.01em #A3A3A3;
+    filter: progid:DXImageTransform.Microsoft.Glow(Color=#a3a3a3, Strength=1);
+}
+
+.wordart.tilt .text:before {
+    content: attr(data-text);
+    position: absolute;
+    z-index: -1;
+    top: 0.17em;
+    -webkit-text-fill-color: #6D4916;
+    -webkit-background-clip: border-box;
+    transform: perspective(1em) rotateX(65deg) scale(0.77);
+    -webkit-transform: perspective(1em) rotateX(65deg) scale(0.77);
+    -moz-transform: perspective(1em) rotateX(65deg) scale(0.77);
+    -o-transform: perspective(1em) rotateX(65deg) scale(0.77);
+    -ms-transform: perspective(1em) rotateX(65deg) scale(0.77);
+}
+        .img-cont{
+            width: 20rem;
+            height: 20rem;
+        }
+        a{
+            cursor: pointer;
+        }
         img{
             width: 100%;
             height: auto;
+            object-fit: cover;
+            object-position: center;
         }
     </style>
 </head>
 <body>
     <div id="app" >
-        <div class="container-fluid p-5 bg-light">
-            <h1>Doggos</h1>
-            <div class="row w-50">
+        <div class="container p-5 bg-light">
+            <div class="wordart tilt">
+                <h1 class="text">Doggos</h1>
+            </div>
+            <div class="row img-cont">
                 <img v-bind:src="imgDog" alt="">
             </div>
             <div class="row" v-for="dog of doggos">
-                <p class="col-12" v-on:click="changeImage(dog.img)">{{dog.name}}</p>
+                <a class="col-12" v-on:click="changeImage(dog.img)">{{dog.name}}</a>
             </div>        
+        </div>
+
+        <div class="container">
+            <div class="row bg-dark text-light p-2">
+                <h2>Calculadora</h2>
+                <div class="col-10">
+                    <label for="inp1 ">Primer Numero:</label>
+                    <input name="inp1" class="" type="number" v-model.number="inputs[0]">
+                </div>
+                <div class="col-10">
+                    <label for="inp2 ">Segundo numero:</label>
+                    <input name="inp2" class="" type="number" v-model.number="inputs[1]">
+                </div>
+                <div class="col-10 mt-5">
+                    <label>Resultado</label>
+                    <input type="text" v-model="res" disabled>
+                </div>
+                <div class="col-10 mt-2">
+                    <button v-on:click="add()">
+                        Sumar
+                    </button>
+                    <button v-on:click="subs()">
+                        Restar
+                    </button>
+                    <button v-on:click="div()">
+                        Dividir
+                    </button>
+                    <button v-on:click="mult()">
+                        Multiplicar
+                    </button>
+                </div>
+            </div>
+            
+            <div class="row bg-dark text-light p-2 my-5">
+                <h2>Contador</h2>
+                <div class="col-12">
+                    <input type="text" v-model="count" disabled>
+                </div>
+                <div class="col-12">
+                    <button v-on:click="countUp()">Contar</button>
+                    <button v-on:click="restart()" >Reiniciar contador</button>
+                </div>
+            </div>
         </div>
     </div>              
 
