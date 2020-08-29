@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <title>Document</title>
+    <style>
+        img{
+            width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <div id="app" >
+        <div class="container p-5 bg-light">
+            <h1>Autos</h1>
+            <form class="row my-5" @submit="submit">
+                <div class="col">
+                    <p>
+                        Patente
+                        <input required type="text" name="patente" class="form-control" >
+                    </p>
+                    <p>
+                        Modelos
+                        <input required type="text" name="modelo" class="form-control" >
+                    </p>
+                    <p>
+                        Color
+                        <input required type="text" name="color" class="form-control" >
+                    </p>
+                    <p>
+                        Descripcion
+                        <input required type="text" name="descripcion" class="form-control" >
+                    </p>
+                    <p>
+                        Precios
+                        <input required type="number" name="precio" class="form-control" >
+                    </p>
+                    <p>
+                        Marcas disponibles
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                              <label class="input-group-text" for="inputGroupSelect01">Options</label>
+                            </div>
+                            <select class="custom-select" id="inputGroupSelect01" name="marca">
+                              <option v-for="marca in marcas" selected>{{marca}}</option>
+                            </select>
+                          </div>
+                    </p>
+                </div>
+                <div class="col-12 mt-3">
+                    <button type="submit" class="btn btn-success w-100">
+                        Enviar
+                    </button>
+                </div>
+            </form>
+            <div class="row">
+                <table class="table col-12">
+                    <thead>
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Patente</th>
+                        <th scope="col">Modelos</th>
+                        <th scope="col">Color</th>
+                        <th scope="col">Descripcion</th>
+                        <th scope="col">Precio</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr v-for="(product, key) in products">
+                        <th scope="row">{{key+1}}</th>
+                        <td>{{product.patente}}</td>
+                        <td>{{product.modelo}}</td>
+                        <td>{{product.color}}</td>
+                        <td>{{product.descripcion}}</td>
+                        <td>{{product.precio}}</td>
+                        <td>{{product.marca}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+            </div>
+        </div>
+
+    </div>     
+
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

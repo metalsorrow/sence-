@@ -1,0 +1,94 @@
+function isFunction(val) {
+	return (typeof(val) == typeof(Function));
+}
+
+function isLocalStorage() {
+	try {
+		return 'localStorage' in window && window['localStorage'] !== null;
+	} catch (e) {
+		return false;
+	}
+}
+
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function checkSystem(supportedSystems) {
+	systemDetect = new SystemDetect();
+	systemDetect.init();
+
+	var deviceType = systemDetect.deviceType;
+	var os = systemDetect.osName;
+	var osVer = systemDetect.osVersion;
+	var browserVersion = Number(systemDetect.browserVersion);
+	var browserName = systemDetect.browserName;
+
+	var wW = screen.width;
+	var wH = screen.height;
+
+	if(supportedSystems.Browser.hasOwnProperty(browserName)) {
+		if(browserVersion >= supportedSystems.Browser[browserName].version.value) {
+			if((wW >= supportedSystems.Resolution.width && wH >= supportedSystems.Resolution.height) || (wW >= supportedSystems.Resolution.height && wH >= supportedSystems.Resolution.width)) {
+				return true;
+			}
+		}
+	}
+
+	return false;
+}
+
+function ReportScore(obtained, maximum, minimum) {
+	doLMSSetValue("cmi.core.score.raw", obtained);
+	doLMSSetValue("cmi.core.score.max", maximum);
+	doLMSSetValue("cmi.core.score.min", minimum);
+	doLMSCommit();
+	//	alert("marks:"+obtained)
+}
+
+function SetSuspendedData(data) {
+	dataStr = JSON.stringify(data);
+	doLMSSetValue("cmi.suspend_data", dataStr);
+	doLMSCommit();
+	//alert("setting\n\n"+data);
+}
+
+function GetSuspendedData() {
+	var str = doLMSGetValue("cmi.suspend_data");
+	//alert("getting\n\n"+str);
+	return str;
+}
+
+function GetLessonStatus() {
+	return doLMSGetValue("cmi.core.lesson_status");
+}
+
+function SetLessonStatus(arg) {
+	return doLMSSetValue("cmi.core.lesson_status", arg);
+}
+
+function GetStudentName() {
+	var str1 = doLMSGetValue("cmi.core.student_name");
+	return str1;
+}
+
+function GetStudentId() {
+	var str2 = doLMSGetValue("cmi.core.student_id");
+	return str2;
+}
+
+function GetStudentScore() {
+	return doLMSGetValue("cmi.core.score.raw");
+}
+
+function fnSaveBookmark(arg) {
+	doLMSSetValue("cmi.core.lesson_location", arg);
+}
+
+function getBookmarkData() {
+	return doLMSGetValue("cmi.core.lesson_location");
+}
+
+function getSuspendData() {
+	return doLMSGetValue("cmi.suspend_data");
+}

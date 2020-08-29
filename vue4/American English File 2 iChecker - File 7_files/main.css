@@ -1,0 +1,928 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-size: 62.5%;
+    background: #fff;
+    position: relative;
+    font-family: 'MyriadPro-Regular';
+    /* font-family: arial, sans-serif, serif; */
+    font-size: 1em;
+    color: #333;
+}
+
+@font-face {
+    font-family: 'MyriadStd-Tilt';
+    src: url('font/MyriadStd-Tilt.eot?#iefix') format('embedded-opentype'), url('font/MyriadStd-Tilt.otf') format('opentype'), url('font/MyriadStd-Tilt.woff') format('woff'), url('font/MyriadStd-Tilt.ttf') format('truetype'), url('font/MyriadStd-Tilt.svg#MyriadStd-Tilt') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+  font-family: 'MyriadPro-Regular';
+  src: url('font/MyriadPro-Regular.eot?#iefix') format('embedded-opentype'),  url('font/MyriadPro-Regular.woff') format('woff'), url('font/MyriadPro-Regular.ttf')  format('truetype'), url('font/MyriadPro-Regular.svg#MyriadPro-Regular') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+
+@font-face {
+  font-family: 'MyriadPro-BoldCond';
+  src: url('font/MyriadPro-BoldCond.eot?#iefix') format('embedded-opentype'),  url('font/MyriadPro-BoldCond.otf')  format('opentype'),
+         url('font/MyriadPro-BoldCond.woff') format('woff'), url('font/MyriadPro-BoldCond.ttf')  format('truetype'), url('font/MyriadPro-BoldCond.svg#MyriadPro-BoldCond') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+
+@font-face {
+  font-family: 'MyriadPro-BoldCondIt';
+  src: url('font/MyriadPro-BoldCondIt.eot?#iefix') format('embedded-opentype'),  url('font/MyriadPro-BoldCondIt.otf')  format('opentype'),
+         url('font/MyriadPro-BoldCondIt.woff') format('woff'), url('font/MyriadPro-BoldCondIt.ttf')  format('truetype'), url('font/MyriadPro-BoldCondIt.svg#MyriadPro-BoldCondIt') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+    font-family: 'PermanentMarker';
+    src: url('font/PermanentMarker.eot?#iefix') format('embedded-opentype'), url('font/PermanentMarker.woff') format('woff'), url('font/PermanentMarker.ttf') format('truetype'), url('font/PermanentMarker.svg#PermanentMarker') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'CaeciliaLTStd-Roman';
+    src: url('font/CaeciliaLTStd-Roman/CaeciliaLTStd-Roman.eot?#iefix') format('embedded-opentype'), url('font/CaeciliaLTStd-Roman/CaeciliaLTStd-Roman.otf') format('opentype'), url('font/CaeciliaLTStd-Roman/CaeciliaLTStd-Roman.woff') format('woff'), url('font/CaeciliaLTStd-Roman/CaeciliaLTStd-Roman.ttf') format('truetype'), url('font/CaeciliaLTStd-Roman/CaeciliaLTStd-Roman.svg#CaeciliaLTStd-Roman') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'CaeciliaLTStd-Light';
+    src: url('font/CaeciliaLTStd-Light/CaeciliaLTStd-Light.eot?#iefix') format('embedded-opentype'), url('font/CaeciliaLTStd-Light/CaeciliaLTStd-Light.otf') format('opentype'), url('font/CaeciliaLTStd-Light/CaeciliaLTStd-Light.woff') format('woff'), url('font/CaeciliaLTStd-Light/CaeciliaLTStd-Light.ttf') format('truetype'), url('font/CaeciliaLTStd-Light/CaeciliaLTStd-Light.svg#CaeciliaLTStd-Light') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+/*========= CSS Loader ========*/
+
+* {
+    outline: none;
+}
+
+#mainContainer {
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+header {
+    background: #004466 url(../images/shell/header-bg.png) no-repeat left top;
+    border-bottom: 10px solid #007bc1;
+    color: #fff;
+    max-height: 83px;
+    padding: 5px 4%;
+    width: 100%;
+    clear: both;
+    float: left;
+    box-shadow: 0 8px 10px -5px #666;
+    -moz-box-shadow: 0 8px 10px -5px #666;
+    -webkit-box-shadow: 0 8px 10px -5px #666;
+    -ms-box-shadow: 0 8px 10px -5px #666;
+    font-family: 'CaeciliaLTStd-Roman';
+}
+
+i {
+    margin-right: 2px;
+}
+
+.leftHeader {
+    float: left;
+    width: 50%;
+}
+
+.leftHeader h2 {
+    font-size: 2em;
+}
+
+.leftHeader h3 {
+    font-size: 1.5em;
+    line-height: 1em;
+}
+
+.leftHeader span {
+    font-size: 0.6em;
+}
+
+.leftHeader span.Small {
+     font-size: 0.3em;
+    letter-spacing: 2px;
+    margin-left: 10px;
+
+}
+
+.rightHeader {
+    float: right;
+    text-align: right;
+    padding-top: 2.5%;
+    font-size: 1.5em;
+}
+
+#container {
+    float: left;
+    width: 100%;
+    clear: both;
+}
+
+.contentHome {
+    width: 50%;
+    margin: 0 auto;
+    min-height: 400px;
+    padding-top: 10%;
+}
+
+.inputField {
+    float: left;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.inputField label,
+.StudentRecord label {
+    width: 100%;
+    float: left;
+    margin-bottom: 5px;
+}
+
+.option label {
+    padding-left: 10px;
+}
+
+.inputField input[type="text"] {
+    padding: 5px;
+    width: 79%;
+    height: 36px;
+    border: 1px solid #cccccc;
+    background: #eeeeee;
+    font-size: 1em;
+}
+
+.button {
+    width: auto;
+    padding: 5%;
+    background: #cccccc url(../images/shell/button-img.png) no-repeat 92% center;
+    border: medium none;
+    color: #666;
+    cursor: pointer;
+    font-size: 1em;
+    height: 36px;
+    padding: 6px 45px 6px 10px;
+    width: auto;
+    text-transform: uppercase;
+}
+
+input[disabled="disabled"].button {
+    width: auto;
+    padding: 5%;
+    background: #e6e6e6 url(../images/shell/button-img.png) no-repeat 92% center;
+    border: medium none;
+    color: #666;
+    cursor: default;
+    font-size: 1em;
+    height: 36px;
+    padding: 6px 45px 6px 10px;
+    width: auto;
+    text-transform: uppercase;
+}
+
+.StudentRecord {
+    float: left;
+    width: 100%;
+    clear: both;
+}
+
+.StudentRecord ul {
+    overflow: auto;
+    clear: both;
+    border: 1px solid #a5becd;
+    border-radius: 4px;
+    width: 100%;
+    margin: 0px;
+    padding: 5px;
+    list-style: none;
+    height: 300px;
+    margin-bottom: 20px;
+}
+
+.StudentRecord ul li {
+    float: left;
+    width: 100%;
+    margin-bottom: 2px;
+    padding: 2px 5px;
+    cursor: pointer;
+}
+
+.StudentRecord ul li:hover,
+.select {
+    background: #c7ced1;
+}
+
+.button:hover {
+    background: #bbbcbc url(../images/shell/button-img-hover.png) no-repeat 92% center;
+}
+
+
+/* intro page css */
+
+#introPage {
+    border: 2px solid #c5c8c9;
+    border-radius: 8px;
+    margin: 15% auto 0;
+    width: 50%;
+    overflow: hidden;
+    border-top: 0px;
+}
+
+.introContent {
+    width: 100%;
+    float: left;
+    clear: both;
+    color: #000;
+}
+
+.introContent h2 {
+    background: #293034;
+    padding: 5px 0px;
+    text-align: center;
+    width: 100%;
+    color: #fff;
+    font-size: 1.4em;
+    border-radius: 8px 8px 0 0;
+}
+
+.introtext {
+    padding: 2% 18%;
+    float: left;
+    width: 100%;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.buttonContainer {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.filesgroup {
+    margin: 25px 5% 0;
+    max-width: 90%;
+    width: 100%;
+    float: left;
+}
+
+.mainspan {
+    display: none;
+    background: #54595d;
+    width: 100%;
+    clear: both;
+    cursor: default;
+    float: left;
+}
+
+.mainspan b,
+.mainspan strong,
+.topcontent strong {
+    color: #000;
+}
+
+.mainspan p {
+    margin-bottom: 10px;
+}
+
+.active .mainspan {
+    display: block;
+}
+
+.leftarea,
+.rightarea {
+    background: #fff;
+    border-radius: 20px;
+    float: left;
+    font-size: 1em;
+    font-weight: normal;
+    margin: 1% 2% 2%;
+    padding: 2%;
+    width: 46%;
+    min-height: 200px;
+    position: relative;
+}
+
+.outersection {
+    border: 1px solid #b7babc;
+    background: #e6e6e6;
+    clear: both;
+    width: 100%;
+    border-radius: 10px 10px;
+    margin-bottom: 40px;
+    position: relative;
+    box-sizing: border-box;
+    float: left;
+}
+
+.filesgroup h1 {
+    background: #333333;
+    border-radius: 10px 10px 0px 0px;
+    clear: both;
+    color: #fff;
+    float: left;
+    font-size: 1.2em;
+    padding: 5px 20px;
+    width: auto;
+    margin-bottom: -1px;
+    margin-left: 20px;
+    cursor: pointer;
+}
+
+.contentpage {
+    clear: both;
+    float: left;
+    width: 100%;
+}
+
+.contentpage h2 {
+    background: #333333;
+    border-radius: 10px 10px 0px 0px;
+    clear: both;
+    color: #fff;
+    float: left;
+    font-size: 1.2em;
+    padding: 10px 20px;
+    width: 100%;
+    font-weight: normal;
+}
+
+.topcontent {
+    float: left;
+    width: 100%;
+    padding: 2% 3%;
+    clear: both;
+}
+
+.topcontent p {
+    margin-bottom: 10px;
+    float: left;
+    width: 100%;
+    clear: both;
+}
+
+.topcontent p strong {
+    width: 40%;
+    float: left;
+    max-width: 160px;
+}
+
+.topcontent p .span1,
+.topcontent p .span2 {
+    float: left;
+    width: 20%;
+    max-width: 125px;
+}
+
+.filedetails {
+    width: 100%;
+    clear: both;
+    overflow: hidden;
+}
+
+.filedetails ul {
+    padding: 0px;
+    margin: 0px;
+    list-style: none;
+}
+
+.filedetails ul li {
+    width: 100%;
+    padding: 5px 3%;
+    background: #d9d9d9;
+    border-top: 1px solid #f0f0f0;
+    border-bottom: 1px solid #999999;
+    color: #666666;
+    font-weight: bold;
+    cursor: pointer;
+    float: left;
+}
+
+.filedetails ul li:last-child {
+    border-radius: 0px 0px 10px 10px;
+}
+
+.filedetails ul li:hover {
+    background: #b5b7b7;
+}
+
+.filedetails ul li.active:hover,
+.filedetails ul li.active {
+    background: #e6e6e6;
+}
+
+.filedetails ul li.active {
+    padding: 0;
+    border-top: 0;
+}
+
+.filedetails ul li.active h3 {
+    background: #54595d;
+    clear: both;
+    color: #fff;
+    float: left;
+    font-size: 1.2em;
+    padding: 5px 3%;
+    width: 100%;
+    font-weight: normal;
+}
+
+.filedetails ul li h3 {
+    text-transform: uppercase;
+      color: #333;
+    font-size: 1em;
+    text-transform: uppercase;
+}
+
+.filedetails ul li.active:first-child h3 {
+    border-radius: 10px 10px 0px 0px;
+}
+
+.filedetails ul.activeul li:first-child {
+    border-radius: 10px 10px 0px 0px;
+}
+
+.questionarea {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin: 20px 5%;
+    padding: 2%;
+    width: 90%;
+    float: left;
+    box-sizing: border-box;
+}
+
+.questionMainArea {
+    background: #fff;
+    border-radius: 10px;
+    padding-bottom: 20px;
+    width: 100%;
+    overflow: hidden;
+}
+
+.optionsgroup {
+    float: left;
+    width: 100%;
+    margin: 10px 0px;
+}
+
+.option {
+    float: left;
+    margin: 5px 30px;
+    cursor: pointer;
+    width: 24%;
+}
+
+.option input,
+.option label {
+    cursor: pointer;
+}
+
+.questiontxt span {
+    background: #ddd none repeat scroll 0 0;
+    border: 1px solid #999;
+    border-radius: 20px;
+    float: left;
+    font-size: 0.8em;
+    height: 25px;
+    line-height: 2em;
+    margin-right: 10px;
+    text-align: center;
+    vertical-align: middle;
+    width: 26px;
+    color: #000;
+}
+.questiongroup img {
+    margin-right: 10px;
+}
+
+/* #questionResultChallenge .questiontxt .text {
+    padding-left: 20px;
+    background: url(../images/shell/Cross.png) no-repeat left center;
+}
+
+#questionResultChallenge .questiontxt.rightAnswer .text {
+    padding-left: 20px;
+    background: url(../images/shell/Tick.png) no-repeat left center;
+}
+
+#questionResultChallenge .correctUserAns .questiontxt .text {
+    padding-left: 20px;
+    background: url(../images/shell/Tick.png) no-repeat left center;
+}
+
+#questionResult .questiontxt .text {
+    padding-left: 20px;
+    background: url(../images/shell/Cross.png) no-repeat left center;
+}
+
+#questionResult .questiontxt.rightAnswer .text {
+    padding-left: 20px;
+    background: url(../images/shell/Tick.png) no-repeat left center;
+}
+
+#questionResult .correctUserAns .questiontxt .text {
+    padding-left: 20px;
+    background: url(../images/shell/Tick.png) no-repeat left center;
+}
+
+#questionResult .correct {
+    padding-left: 10px;
+    background: url(../images/shell/Tick.png) no-repeat left center;
+}
+
+#questionResultAll .questiontxt .text {
+    padding-left: 20px;
+    background: url(../images/shell/Cross.png) no-repeat left center;
+}
+
+#questionResultAll .questiontxt.rightAnswer .text {
+    padding-left: 20px;
+    background: url(../images/shell/Tick.png) no-repeat left center;
+}
+
+#questionResultAll .correctUserAns .questiontxt .text {
+    padding-left: 20px;
+    background: url(../images/shell/Tick.png) no-repeat left center;
+}
+
+#questionResultAll .correct {
+    padding-left: 10px;
+    background: url(../images/shell/Tick.png) no-repeat left center;
+}
+ */
+.option span {
+    background: #ddd none repeat scroll 0 0;
+    border: 1px solid #999;
+    border-radius: 20px;
+    float: left;
+    font-size: 0.8em;
+    height: 25px;
+    line-height: 2em;
+    margin-right: 10px;
+    text-align: center;
+    vertical-align: middle;
+    width: 26px;
+    color: #000;
+}
+
+.questiongroup {
+    float: left;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.submitbutton {
+    margin: 20px auto;
+    width: 90%;
+    clear: both;
+}
+
+.pagetitle {
+    background: #e6e6e6 none repeat scroll 0 0;
+    clear: both;
+    float: left;
+    margin-bottom: 20px;
+    padding: 2%;
+    width: 100%;
+    color: #666;
+}
+
+.questionTitle {
+    background: #333333;
+    border-radius: 10px 10px 0px 0px;
+    clear: both;
+    color: #fff;
+    float: left;
+    font-size: 1.1em;
+    padding: 10px 20px;
+    width: 100%;
+    font-weight: normal;
+    text-transform: uppercase;
+}
+
+.questiontxt {
+    float: left;
+    width: 100%;
+    line-height: 26px;
+}
+
+.questionareaLeft {
+    float: left;
+    margin-right: 5%;
+    width: 35%;
+}
+
+.questionareaRight {
+    float: left;
+    height: 468px;
+    padding: 10px 20px;
+    width: 60%;
+    line-height: 1.5em;
+    background: url(../images/shell/bg_paper.png) no-repeat left top;
+    overflow: auto;
+}
+
+.questionareaLeft .option {
+    cursor: pointer;
+    float: left;
+    margin: 0 0 15px 30px;
+    width: 100%;
+    padding: 5px 10px;
+    max-width: calc(100% - 30px);
+    max-width: -moz-calc(100% - 30px);
+    max-width: -webkit-calc(100% - 30px);
+    max-width: -ms-calc(100% - 30px);
+    max-width: -o-calc(100% - 30px);
+}
+
+.questionareaLeft .optionsgroup {
+    margin: 0px;
+}
+
+.questionareaLeft .questiontxt {
+    margin-bottom: 30px;
+}
+
+.questionareaLeft .submitbutton {
+    float: left;
+    margin: 0 auto;
+    width: 100%;
+    clear: none;
+}
+
+.text {
+    float: left;
+    width: 230px;
+}
+
+.questionareaLeft .option label {
+    padding-left: 0;
+    line-height: 26px;
+    float: left;
+    width: 180px;
+}
+
+.questionareaLeft .option:hover {
+    background: #cccccc;
+}
+
+.active {
+    background: #647279;
+}
+
+.option.active label {
+    color: #fff;
+}
+
+.popup {
+    background: #fff none repeat scroll 0 0;
+    border-radius: 10px;
+    bottom: 0;
+    box-shadow: 0 0 5px #333;
+    left: 0;
+    margin: auto;
+    max-height: 200px;
+    min-height: 200px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 412px;
+    padding: 20px;
+}
+
+.popupContainer {
+    background: rgba(0, 0, 0, 0.5);
+    bottom: 0;
+    height: 100%;
+    left: 0;
+    margin: 0;
+    position: fixed;
+    right: 0;
+    top: 0;
+    width: 100%;
+    display: none;
+}
+
+.popupContainer .button {
+    float: left;
+    margin-right: 6px;
+}
+
+.questionResult .button {
+    float: left;
+    margin-right: 15px;
+}
+
+.resultTex {
+    text-align: center;
+    float: left;
+    width: 100%;
+}
+
+.resultTex h2 {
+    font-weight: normal;
+    font-size: 1.8em;
+    margin-bottom: 10px;
+}
+
+.resultTex h3 {
+    font-weight: normal;
+    font-size: 1.4em;
+    margin-bottom: 10px;
+}
+
+.ChallengeDiv .submitbutton {
+    float: left;
+    margin: 25px 10px;
+    width: auto;
+    clear: none;
+}
+
+.questionareaRight > b {
+    margin-right: 5px;
+}
+
+#submitChallenge {
+    margin-top: 300px;
+}
+
+.resultTitle {
+    border-bottom: 1px solid #ddd;
+    font-weight: bold;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    text-transform: uppercase;
+}
+
+.questionResult .text {
+    width: auto;
+    float: none;
+}
+
+.useranswertxt {
+    color: #000;
+    font-style: normal;
+}
+
+.unittxt {
+    font-size: 0.8em;
+    text-align: right;
+    width: 100%;
+    float: right;
+}
+
+.totalscore {
+    color: #000;
+    display: inline;
+    font-size: 1.2em;
+    line-height: 2em;
+    padding-left: 20px;
+}
+
+.rightarea .totalscore {
+    color: #000;
+    padding-left: 0px;
+    float: left;
+    padding-right: 20px;
+    position: absolute;
+    left: 15px;
+    bottom: 15px;
+}
+
+.mainspan .button {
+    float: right;
+    position: absolute;
+    right: 15px;
+    bottom: 15px;
+}
+
+.totalscore u {
+    padding: 0px 10px;
+}
+
+.questionResult .text > b {
+    color: #000;
+    font-weight: normal;
+}
+
+.questionResult .questionarea {
+    padding: 0px;
+}
+
+.questionResult .resultTitle,
+.questionResult .questiongroup {
+    float: left;
+    width: 100%;
+    padding: 1% 2%;
+    margin-bottom: 0px;
+}
+
+.questionResult .questiongroup {
+    background: #eee;
+    border-bottom: 1px solid #ddd;
+}
+
+.questionResult .questiongroup:last-child {
+    border-radius: 0 0 8px 8px;
+}
+
+.rightAnswer {
+    padding-left: 5%;
+}
+
+.questionResult .questiongroup.correctUserAns {
+    background: #fff;
+}
+
+.filedetails ul li.Complete h3 {
+    background: green;
+}
+
+.questionResult .option,
+.questionResult .option input,
+.questionResult .option label {
+    cursor: default;
+}
+
+
+
+#popupDiv{
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0,0,0,0.3);
+    text-align: center;
+}
+#popup{
+    height: 25%;
+    top: 40%;
+    width: 60%;
+    margin: 0 auto;
+    text-align: center;
+    vertical-align: middle;
+    position: relative;
+    background-color: #54595d;
+    color: #ffffff;
+    border: #647279;
+    border-style: solid;
+    padding: 40px;
+
+}
+
+#popup_ok{
+    padding: 5px;
+    width: 65px;
+    margin-top: 20px;
+    cursor: pointer;
+}
+@media print {
+
+    * {
+        -webkit-print-color-adjust: exact;
+    }
+    .questionMainArea,
+    .questionarea {
+        overflow: visible;
+    }
+    #mainContainer {
+        overflow: visible;
+    }
+    input {
+        display: none;
+    }
+    .option {
+        width: 30%;
+        margin: 5px 1.5%;
+    }
+    .outersection {
+        border: 2px solid #b7babc;
+    }
+    .questionResult .text {
+   float: none;
+}
+}
+

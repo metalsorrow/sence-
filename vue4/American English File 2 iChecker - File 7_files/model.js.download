@@ -1,0 +1,24 @@
+/**
+ * Created by sahibak on 10/8/2015.
+ */
+var model = {
+    isScorm : true,
+    scormHasData:false,
+    setCurrent: function() {
+
+        var scormHasData = false;
+        if (model.isScorm) {
+            stuName = GetStudentName();
+            var bookMarkData = getBookmarkData();
+            model.suspendData = getSuspendData();
+
+            /*model.bookMarkData = bookMarkData;*/
+            /*model.bookMarkData = "1**1**19";*/
+            // model.suspendData = '{"task_0":{"interactionID":0,"userAttemptMcq":["1","1","1","2","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1"],"userAttemptChallenge":["2","2","2","2","2","2","2","2","2","2","2","2","2","2","2","2","2","2","2","2"],"userTotalScore":42,"userAttemped":true},"task_1":{"interactionID":-1,"userAttemptMcq":[],"userAttemptChallenge":[],"userTotalScore":0,"userAttemped":false},"task_2":{"interactionID":-1,"userAttemptMcq":[],"userAttemptChallenge":[],"userTotalScore":0,"userAttemped":false},"task_3":{"interactionID":50,"userAttemptMcq":["1","1","1","1","1","1","2","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1"],"userAttemptChallenge":["2","2","2","2","2","2","2","2","2","2","2","2","2","2","2","2","2","2","2","2"],"userTotalScore":36,"userAttemped":true},"task_4":{"interactionID":-1,"userAttemptMcq":[],"userAttemptChallenge":[],"userTotalScore":0,"userAttemped":false},"task_5":{"interactionID":-1,"userAttemptMcq":[],"userAttemptChallenge":[],"userTotalScore":0,"userAttemped":false},"task_6":{"interactionID":-1,"userAttemptMcq":[],"userAttemptChallenge":[],"userTotalScore":0,"userAttemped":false},"task_7":{"interactionID":-1,"userAttemptMcq":[],"userAttemptChallenge":[],"userTotalScore":0,"userAttemped":false},"task_8":{"interactionID":-1,"userAttemptMcq":[],"userAttemptChallenge":[],"userTotalScore":0,"userAttemped":false},"task_9":{"interactionID":-1,"userAttemptMcq":[],"userAttemptChallenge":[],"userTotalScore":0,"userAttemped":false},"task_10":{"interactionID":-1,"userAttemptMcq":[],"userAttemptChallenge":[],"userTotalScore":0,"userAttemped":false},"task_11":{"interactionID":-1,"userAttemptMcq":[],"userAttemptChallenge":[],"userTotalScore":0,"userAttemped":false}}';
+            if (model.suspendData != "" && model.suspendData != undefined && model.suspendData != "undefined" && model.suspendData != null && model.suspendData != "null") {
+                model.scormHasData = true;
+            }
+        }
+    }
+
+};

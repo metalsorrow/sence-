@@ -1,0 +1,829 @@
+/*function init() {
+    loadPage_main("page1");
+}*/
+
+function loadPage_main(str) {
+    pageName = str;
+    $("#container").html('');
+    if (typeof(page) != "undefined" && isFunction(page.unload)) {
+        page.unload();
+    }
+    $("#container").load('content/pages/' + pageName + ".html", pageLoaded);
+}
+
+function pageLoaded() {
+    if (typeof(page) != "undefined" && isFunction(page.init)) {
+        page.init();
+    }
+}
+
+function loadXML(arg, fnCallback) {
+    $.ajax({
+        type: "GET",
+        url: arg,
+        dataType: "xml",
+        success: function(xml) {
+            fnCallback(xml);
+        },
+        error: function(err) {
+            console.error("Error in loading xml", err);
+        }
+    });
+}
+
+
+function isFunction(val) {
+    return (typeof(val) == typeof(Function));
+}
+page = {
+    scoIndex: 0,
+    fileLen: 0,
+    fileXMLObj: {},
+    questionsXMLObj: {},
+    questionsChallengeXMLObj: {},
+    titletxt: "",
+    checkquestiontype: 0,
+    currentQuesNumber: 0,
+    UserAnswer: "",
+    UserAnswerText: "",
+    UserAnschallenge: "",
+    storeUserData: {},
+    curFileID: 0,
+    UserScore: "",
+    countChallenge: 0,
+    countMcq: 0,
+    obtainedTotalScore: 0,
+    incompleteAttempt : true,
+    /*id,objectives,time,type,correct_responses,weighting,student_response,result,latency*/
+    init: function() {
+        loadXML("content/xml/fileDetail.xml", page.parseFileData);
+        $(".tests").click(function() {
+            var audio = document.getElementById("mcqSound");
+            audio.play();
+            $(".totest")
+                .off()
+                .on("click",page.totest);
+
+            $(".reviewTest")
+                .off()
+                .on("click",page.reviewTest);
+            page.updateFileStatus();
+
+        });
+    },
+
+    updateFileStatus: function() {
+        $("#questionResult,#questionResultChallenge,#questionResultAll").remove();
+        $(".mcqTest,.ChallengeTest").empty();
+        $(".hidesection,.contentpage").show();
+        $(".hidesection,.contentpage").show();
+        $(".filedetails ul").removeClass("activeul");
+        $(".filedetails ul li").removeClass("active");
+
+
+        for (var i = 0; i < page.fileLen; i++) {
+            if (page.storeUserData["task_" + i].userAttemped) {
+                $("#task" + parseInt(i + 1) + " .rightarea .button").attr("disabled", false);
+                if ($("#task" + parseInt(i + 1) + " .rightarea .totalscore").length > 0) {
+                    $("#task" + parseInt(i + 1) + " .rightarea .totalscore").html("Score: " + "<u>" + parseInt(page.storeUserData["task_" + i].userTotalScore) + " / 60</u>");
+                } else {
+                    $("#task" + parseInt(i + 1) + " .rightarea").append("<span class='totalscore'>Score: " + "<u>" + parseInt(page.storeUserData["task_" + i].userTotalScore) + " / 60</u></span>");
+                }
+            }
+        }
+
+    },
+
+
+    parseFileData: function(xml) {
+        var rootNode = $(xml).find("fileDetails");
+        page.fileLen = rootNode.find("file").length;
+        if (model.scormHasData) {
+            data = JSON.parse(model.suspendData);
+            // console.log("suspendData", data);
+
+            for (var i = 0; i < page.fileLen; i++) {
+                page.fileXMLObj["file" + i] = {};
+                var temp = page.fileXMLObj["file" + i];
+                temp.val = rootNode.find("file").eq(i).attr("val");
+                page.val = temp.val;
+                temp.info = rootNode.find("info").eq(i).text();
+                temp.mcqQuestion = rootNode.find("questionmcq").eq(i).text();
+                temp.lineQuestion = rootNode.find("question").eq(i).text();
+                page.storeUserData["task_" + i] = data["task_" + i];
+                /*page.storeUserData["task_" + i].userAttemptMcq = [];
+                page.storeUserData["task_" + i].userAttemptChallenge = [];
+                // page.storeUserData["task_" + i].userAttemptMcqText = [];
+                // page.storeUserData["task_" + i].userAttemptChallengeText = [];
+                page.storeUserData["task_" + i].userTotalScore = 0;
+                page.storeUserData["task_" + i].userAttemped = false;*/
+            }
+
+        } else {
+            for (var i = 0; i < page.fileLen; i++) {
+                page.fileXMLObj["file" + i] = {};
+                var temp = page.fileXMLObj["file" + i];
+                temp.val = rootNode.find("file").eq(i).attr("val");
+                page.val = temp.val;
+                temp.info = rootNode.find("info").eq(i).text();
+                temp.mcqQuestion = rootNode.find("questionmcq").eq(i).text();
+                temp.lineQuestion = rootNode.find("question").eq(i).text();
+                page.storeUserData["task_" + i] = {};
+                page.storeUserData["task_" + i].interactionID = -1;
+                page.storeUserData["task_" + i].userAttemptMcq = [];
+                page.storeUserData["task_" + i].userAttemptChallenge = [];
+                // page.storeUserData["task_" + i].userAttemptMcqText = [];
+                // page.storeUserData["task_" + i].userAttemptChallengeText = [];
+                page.storeUserData["task_" + i].userTotalScore = 0;
+                page.storeUserData["task_" + i].userAttemped = false;
+
+                // console.log("parseFileData storeUserData", page.storeUserData);
+
+            }
+        }
+        page.createFileNodes();
+
+    },
+    totest :  function() {
+        $(".totest").off();
+        var audio = document.getElementById("mcqSound");
+        audio.play();
+        page.curFileID = id = this.id.substr(6);
+        var filelink = page.fileXMLObj["file" + id];
+
+        loadXML(filelink.mcqQuestion, function(xml) {
+            page.parseMcqQuestionData(xml);
+            page.countMcq = 0;
+            page.createMcqQuestions();
+            $(".hidesection").hide();
+            /*   $(".ChallengeTest").empty();*/
+        });
+
+    },
+    reviewTest :  function() {
+        $(".reviewTest").off();
+        $(".ChallengeTest").empty();
+        $(".mcqTest").empty();
+        page.questionsXMLObj = {};
+        page.questionsChallengeXMLObj = {};
+        var id = this.id.substr(10);
+        page.curFileID = id;
+        var filelink = page.fileXMLObj["file" + id];
+
+        loadXML(filelink.mcqQuestion, function(xml) {
+            page.countMcq = 0;
+            page.countChallenge = 0;
+            page.parseMcqQuestionData(xml);
+            loadXML(filelink.lineQuestion, function(xml) {
+                /* page.parseChallengeQuestionData(xml);*/
+                page.viewResults();
+            });
+        });
+    },
+    createFileNodes: function() {
+        var str = "";
+        for (var i = 0; i < page.fileLen; i++) {
+            str += '<li id=task' + (i + 1) + ' class="animtest"><h3>File ' + page.val + ' </h3>';
+            str += '<span class="mainspan"><span class="leftarea">' + page.fileXMLObj["file" + i].info + '<input type="submit" class="button totest" id="totest' + i + '" value="TO TEST"></span>';
+
+            str += '<span class="rightarea"><p><strong>Review your test.</strong></p><p>Check your answers and print your test.<br />If you have any problems, look again at the grammar and vocabulary in your Student Book and Workbook.</p><input type="submit" class="button reviewTest" id="reviewtest' + i + '" value="REVIEW TEST" /><span class="totalscore">Score:<u>' + parseInt(page.storeUserData["task_" + i].userTotalScore) + ' / 60</u></span></span></span></li>';
+
+        }
+        $(".filedetails ul").append(str);
+        $(".totest").on("click",page.totest);
+
+        $(".reviewTest").on("click",page.reviewTest);
+
+        $(".filedetails ul li").on("click", function() {
+            $(".filedetails ul li").removeClass();
+            $(this).toggleClass("active");
+            $(".filedetails ul").addClass("activeul");
+            $(".contentpage").hide();
+        });
+
+        $(".filedetails ul li h3").on("click", function() {
+            var audio = document.getElementById("mcqSound");
+            audio.play();
+        });
+        if (model.scormHasData){
+            $(".rightarea .button").attr("disabled", false);
+        }else{
+            $(".rightarea .button").attr("disabled", true);
+        }
+
+
+        TweenMax.staggerFromTo($('.animtest'), 1, {
+            bottom: -400,
+            opacity: 0
+        }, {
+            bottom: 0,
+            opacity: 1,
+            ease: Back.easeOut.config(0.8),
+            onStart: function() {
+                $('.animtest').css("position", "relative");
+            },
+            onCompleteAll: function() {
+                    $('.animtest').removeAttr("style");
+                }
+                /*,
+                            onUpdate: function(tween) {
+                                $(tween.target).find(".mainspan").show();
+                            },
+                            onUpdateParams: ["{self}"],
+                            onComplete: function(tween) {
+                                console.log($(tween.target).find(".mainspan").length);
+                                $(tween.target).find(".mainspan").hide();
+                            },
+                            onCompleteParams: ["{self}"],*/
+        }, 0.1);
+    },
+    parseMcqQuestionData: function(xml) {
+        var str = "";
+        var correctAnsIndex = [];
+        var rootNode = $(xml).find("exercise");
+        page.titletxt = rootNode.find("rubric").text();
+        var allQuestions = rootNode.find("question");
+        page.questionsXMLObj.len = rootNode.find("question").length;
+        var questionObj;
+        for (var i = 0; i < page.questionsXMLObj.len; i++) {
+            questionObj = {};
+            page.questionsXMLObj["ques_" + i] = questionObj;
+            var question = allQuestions.eq(i);
+            questionObj.units = question.find("units").eq(0).text();
+            questionObj.label = question.find("label").eq(0).text();
+            questionObj.sentence = question.find("sentence").eq(0).text();
+            questionObj.options = [];
+            var tempOptions = question.find("option");
+            var optionLen = tempOptions.length;
+            for (var j = 0; j < optionLen; j++) {
+                questionObj.options.push(tempOptions.eq(j).text());
+                var optioncorrect = tempOptions.eq(j).attr("answer");
+                if (optioncorrect == "correct") {
+                    questionObj.correctAns = parseInt(j + 1);
+                }
+            }
+        }
+    },
+    createMcqQuestions: function() {
+        var currentQuesObj;
+        var strfinal = "";
+        var tempNo = 0;
+        strfinal += "<div id='questionMcq' class='questionMainArea'>";
+        strfinal += "<div class='questionTitle'>File " + page.val + " - Progress Check</div>";
+        strfinal += "<div class='pagetitle'>" + page.titletxt + "</div>";
+        strfinal += "<div class='questionarea'>";
+        for (var i = 0; i < page.questionsXMLObj.len; i++) {
+            currentQuesObj = page.questionsXMLObj["ques_" + i];
+            strfinal += "<div class='questiongroup'>";
+            strfinal += "<div class='questiontxt'><span>" + currentQuesObj.label + " </span>" + currentQuesObj.sentence + "</div>";
+            strfinal += "<div class='optionsgroup'>";
+            var optionLen = currentQuesObj.options.length;
+            for (var j = 0; j < optionLen; j++) {
+                strfinal += "<div class='option'><input type='radio' id='option" + (tempNo + 1) + "' value='" + (j + 1) + "' name='question" + (i + 1) + "' /><label for='option" + (tempNo + 1) + "'>" + currentQuesObj.options[j] + "</label></div>";
+                tempNo++;
+            }
+            strfinal += "</div>";
+            strfinal += "</div>";
+        }
+        strfinal += "</div>";
+        strfinal += "<div class='submitbutton'><input id='nextquestionbtn' onclick='page.submitMcqTest()' class='button' type='submit' value='To Result' /> </div>";
+        strfinal += "</div>";
+        $(".mcqTest").html(strfinal);
+        page.check_submit();
+    },
+
+   /* parseChallengeQuestionData: function(xml) {
+        var str = "";
+        var correctAr = [];
+        var correctAnsIndex = [];
+        var rootNode = $(xml).find("exercise");
+        page.titletxt = rootNode.find("rubric").text();
+        page.questionTitletxt = rootNode.find("situation").text();
+        var allQuestions = rootNode.find("question");
+        page.questionsChallengeXMLObj.len = rootNode.find("question").length;
+        var questionObj;
+        for (var i = 0; i < page.questionsChallengeXMLObj.len; i++) {
+            questionObj = {};
+            page.questionsChallengeXMLObj["ques_" + i] = questionObj;
+            var question = allQuestions.eq(i);
+            questionObj.units = question.find("units").eq(0).text();
+            questionObj.label = question.find("label").eq(0).text();
+            questionObj.sentence = question.find("sentence").eq(0).text();
+            questionObj.options = [];
+            var tempOptions = question.find("option");
+            var optionLen = tempOptions.length;
+            for (var j = 0; j < optionLen; j++) {
+                questionObj.options.push(tempOptions.eq(j).text());
+                var optioncorrect = tempOptions.eq(j).attr("answer");
+                if (optioncorrect == "correct") {
+                    questionObj.correctAns = parseInt(j + 1);
+                    questionObj.correctAnstxt = tempOptions.eq(j).text();
+                }
+            }
+        }
+    },*/
+
+/*    createChallengeQuestions: function(num) {
+        var strfinal = "";
+        if (page.currentQuesNumber < page.questionsChallengeXMLObj.len) {
+            cuquesXMLObj = {};
+            cuquesXMLObj = page.questionsChallengeXMLObj["ques_" + num];
+            strfinal += "<div id='questionChallenge' class='questionMainArea' >";
+            strfinal += "<div class='questionTitle'>File " + page.val + " - Challenge: " + page.questionTitletxt + "</div>";
+            strfinal += "<div class='pagetitle'>" + page.titletxt + "</div>";
+            strfinal += "<div class='questionarea'>";
+            strfinal += "<div class='questionareaLeft'>";
+            strfinal += "<div class='questiongroup'>";
+            strfinal += "<div class='questiontxt'><span>" + cuquesXMLObj.label + " </span><div class='text'>" + cuquesXMLObj.sentence + "</div></div>";
+            strfinal += "<div class='optionsgroup'>";
+            var optionLen = cuquesXMLObj.options.length;
+            for (var j = 0; j < optionLen; j++) {
+                var labelText;
+                if (j == 0) {
+                    labelText = "A";
+                } else {
+                    labelText = "B";
+                }
+                strfinal += "<div class='option'><span><b>" + labelText + "</b></span><label  value='" + (j + 1) + "' > " + cuquesXMLObj.options[j] + "</label></div>";
+            }
+            strfinal += "</div>";
+            strfinal += "<div class='submitbutton'><input id='nextquestionbtn' onclick='page.nextquestion()' class='button' type='submit' value='Next'/></div>";
+            strfinal += "</div>";
+            strfinal += "</div>";
+            strfinal += "<div class='questionareaRight'>";
+            strfinal += "</div>";
+            strfinal += "</div>";
+            $(".ChallengeTest").html(strfinal);
+            page.addAnswer();
+
+        } else {
+
+            strfinal += "<div id='questionChallenge' class='questionMainArea' >";
+            strfinal += "<div class='questionTitle'>File " + page.val + " - Challenge: " + page.questionTitletxt + "</div>";
+            strfinal += "<div class='pagetitle'>" + page.titletxt + "</div>";
+            strfinal += "<div class='questionarea'>";
+            strfinal += "<div class='questionareaLeft'>";
+            strfinal += "<div class='submitbutton'><input id='submitChallenge' onclick='page.submitChallengeTest()' class='button' type='submit' value='To result' /></div>";
+            strfinal += "</div>";
+            strfinal += "<div class='questionareaRight'>";
+            strfinal += "</div>";
+            strfinal += "</div>";
+            $(".ChallengeTest").html(strfinal);
+        }
+
+    },*/
+
+    check_submit: function() {
+        $(".submitbutton input#nextquestionbtn").attr("disabled", false);
+        $("input[type='radio']").change(function() {
+            if ($(".option input:checked").length == page.questionsXMLObj.len) {
+                page.incompleteAttempt = false;
+               // $(".submitbutton input").removeAttr("disabled");
+            } /*else {
+                $(".submitbutton input#nextquestionbtn").attr("disabled", true);
+            }*/
+        });
+    },
+    /*addAnswer: function() {
+        $(".submitbutton input").attr("disabled", true);
+        $("#questionChallenge .option").click(function() {
+            var audio = document.getElementById("ChallengeSound");
+            audio.play();
+            $("#questionChallenge .option").removeClass("active");
+            $(this).addClass("active");
+            $(".submitbutton input").attr("disabled", false);
+            /!*var tempAnswer = cuquesXMLObj.sentence + "<b>" + ($(".active").find("label").text()) + "</b>";
+            page.UserAnschallenge += tempAnswer;
+            cuquesXMLObj.userAnswer = $(".active").find("label").attr("value");
+            cuquesXMLObj.userAnswerTxt = $(".active").find("label").text();
+            if (page.currentQuesNumber < page.questionsChallengeXMLObj.len) {
+                for (i = 0; i < page.questionsChallengeXMLObj.len; i++) {
+                    page.storeUserData["task_" + page.curFileID].userAttemptChallenge[i] = cuquesXMLObj.userAnswer;
+                    // page.storeUserData["task_" + page.curFileID].userAttemptChallengeText[i] = cuquesXMLObj.userAnswerTxt;
+                }
+            }
+            if (cuquesXMLObj.userAnswer == cuquesXMLObj.correctAns) {
+                page.countChallenge = page.countChallenge + 2;
+            }*!/
+        });
+    },*/
+    submitMcqTest: function() {
+        if (page.incompleteAttempt) {
+            unattemptedArr = [];
+            for(var j = 0; j < page.questionsXMLObj.len; j++){
+                if(typeof $('input[name="question' + (j + 1) + '"]:checked').val() ==="undefined"){
+                    unattemptedArr.push(j+1);
+                }
+            }
+            $("#popup_text").html("You have skipped question(s)<br>"+unattemptedArr.toString()+"<br>Please answer all questions to proceed.");
+            $("#popupDiv").show();
+            $("#popup_ok").click(function () {
+                $("#popupDiv").hide();
+                $("#popup_ok").off();
+            });
+
+            return false;
+
+        } else {
+
+        $(window).scrollTop(0);
+        var audio = document.getElementById("mcqSound");
+        audio.play();
+        var resultText = "";
+        if (page.storeUserData["task_" + page.curFileID].interactionID == -1) {
+            page.scoIndex = parseInt(doLMSGetValue("cmi.interactions._count"));
+            page.storeUserData["task_" + page.curFileID].interactionID = page.scoIndex;
+        } else {
+            page.scoIndex = page.storeUserData["task_" + page.curFileID].interactionID;
+        }
+        for (var i = 0; i < page.questionsXMLObj.len; i++) {
+            currentQuesObj = page.questionsXMLObj["ques_" + i];
+            currentQuesObj.userAnswer = $('input[name="question' + (i + 1) + '"]:checked').val();
+            currentQuesObj.userAnswerText = $('input[name="question' + (i + 1) + '"]:checked').next().text();
+            page.storeUserData["task_" + page.curFileID].userAttemptMcq[i] = currentQuesObj.userAnswer;
+            // page.storeUserData["task_" + page.curFileID].userAttemptMcqText[i] = currentQuesObj.userAnswerText;
+            if (currentQuesObj.userAnswer == currentQuesObj.correctAns) {
+                page.countMcq = page.countMcq + 2;
+                res = "correct"
+            } else {
+                res = "wrong"
+            }
+
+            /*page.setScoIndex(i);*/
+            page.sendInteractionsData(i + 1, currentQuesObj.userAnswer, res);
+        }
+        $(".popupContainer").show();
+        resultText += "<div class='resultTex'>";
+        resultText += "<h2>File" + " " + page.val + "</h2>";
+        resultText += "<h3>You scored: " + page.countMcq + " / " + (page.questionsXMLObj.len * 2) + "</h3>";
+        resultText += "<div class='submitbutton'><input id='reviewTestbtn' class='button' type='submit' value='Review Test' onclick='page.viewResultsMcq()'/> <input id='Take Another test' class='button' type='submit' value='To Results' onclick='page.takeAnotherTest()' />  </div>";
+        resultText += "</div>";
+        $(".popup").html(resultText);
+
+            page.incompleteAttempt = true;//to reset, you may change its position in the code
+        // console.log("parseFileData submitMcqTest", page.storeUserData);
+
+            page.storeUserData["task_" + page.curFileID].userTotalScore =  page.countMcq;
+            page.storeUserData["task_" + page.curFileID].userAttemped = true;
+        SetSuspendedData(page.storeUserData);
+        page.otherScormVars();
+
+    }
+    },
+  /*  submitChallengeTest: function() {
+        $(window).scrollTop(0);
+        var audio = document.getElementById("ChallengeSound");
+        audio.play();
+        var resultText = "";
+        $(".resultTex").remove();
+        $(".popupContainer").show();
+        $(".popupContainer").addClass("ChallengeDiv");
+        resultText += "<div class='resultTex'>";
+        resultText += "<h2>File" + (parseInt(id) + 1) + "</h2>";
+        resultText += "<h3>You scored: " + page.countChallenge + " / " + (page.questionsChallengeXMLObj.len * 2) + "</h3>";
+        resultText += "<div class='submitbutton'><input id='view result' class='button' type='submit' value='View Results' onclick='page.viewResultsChallenge()' /></div>";
+        resultText += "<div class='submitbutton'><input id='Take Another test' class='button' type='submit' value='To Results' onclick='page.takeAnotherTest()' /> </div>";
+        resultText += "</div>";
+        $(".popup").html(resultText);
+        page.storeUserData["task_" + page.curFileID].userTotalScore = page.countChallenge + page.countMcq;
+        page.storeUserData["task_" + page.curFileID].userAttemped = true;
+
+        // console.log("submitChallengeTest submitMcqTest", page.storeUserData);
+        SetSuspendedData(page.storeUserData);
+        page.otherScormVars();
+
+    },*/
+
+  /*  goChallengebtn: function() {
+        var audio = document.getElementById("ChallengeSound");
+        audio.play();
+        $(".popupContainer").hide();
+        $("#questionMcq,#questionResult").remove();
+        var filelink = page.fileXMLObj["file" + id]
+        loadXML(filelink.lineQuestion, function(xml) {
+            page.parseChallengeQuestionData(xml);
+            page.currentQuesNumber = 0;
+            page.countChallenge = 0;
+            page.UserAnschallenge = "";
+            page.createChallengeQuestions(page.currentQuesNumber);
+            $(".hidesection").hide();
+            $(".mcqTest").empty();
+        });
+
+        // console.log("goChallengebtn submitMcqTest", page.storeUserData);
+        SetSuspendedData(page.storeUserData);
+        page.otherScormVars();
+
+    },*/
+   /* nextquestion: function() {
+        var audio = document.getElementById("ChallengeSound");
+        audio.play();
+
+        var tempAnswer = cuquesXMLObj.sentence + "<b>" + ($(".active").find("label").text()) + "</b>";
+        page.UserAnschallenge += tempAnswer;
+        cuquesXMLObj.userAnswer = $(".active").find("label").attr("value");
+        cuquesXMLObj.userAnswerTxt = $(".active").find("label").text();
+        page.storeUserData["task_" + page.curFileID].userAttemptChallenge[page.currentQuesNumber] = cuquesXMLObj.userAnswer;
+
+
+        /!*if (page.currentQuesNumber < page.questionsChallengeXMLObj.len) {
+            for (i = 0; i < page.questionsChallengeXMLObj.len; i++) {
+                page.storeUserData["task_" + page.curFileID].userAttemptChallenge[i] = cuquesXMLObj.userAnswer;
+                // page.storeUserData["task_" + page.curFileID].userAttemptChallengeText[i] = cuquesXMLObj.userAnswerTxt;
+            }
+        }*!/
+        if (cuquesXMLObj.userAnswer == cuquesXMLObj.correctAns) {
+            page.countChallenge = page.countChallenge + 2;
+            res = "correct";
+        } else {
+            res = "wrong";
+        }
+        /!*page.setScoIndex(30+parseInt(currentQuesObj.userAnswer));*!/
+        page.sendInteractionsData(30 + parseInt(page.currentQuesNumber) + 1, cuquesXMLObj.userAnswer, res);
+
+
+        if (page.currentQuesNumber < page.questionsChallengeXMLObj.len) {
+            page.currentQuesNumber++;
+            page.createChallengeQuestions(page.currentQuesNumber);
+        } else {
+            page.currentQuesNumber = page.currentQuesNumber + 1;
+            page.createChallengeQuestions(page.currentQuesNumber);
+        }
+        $(".questionareaRight").html(page.UserAnschallenge);
+
+        // console.log("nextquestion submitMcqTest", page.storeUserData);
+        SetSuspendedData(page.storeUserData);
+        page.otherScormVars();
+
+
+
+    },*/
+    takeAnotherTest: function() {
+        $(".totest")
+            .off()
+            .on("click",page.totest);
+        $(".reviewTest")
+            .off()
+            .on("click",page.reviewTest);
+        $(window).scrollTop(0);
+        var audio = document.getElementById("ChallengeSound");
+        audio.play();
+        $(".hidesection").show();
+        $(".popupContainer").hide();
+        var currentFile = parseInt(page.curFileID) + 1;
+        page.updateFileStatus();
+
+        $(".filedetails ul li").removeClass();
+        $("#task1").toggleClass("active");
+        $(".filedetails ul").addClass("activeul");
+        $(".contentpage").hide();
+    },
+    viewResults: function() {
+        $(window).scrollTop(0);
+        $("#questionResultChallenge,#questionResult").remove();
+        $(".popupContainer").hide();
+        $("#questionChallenge,.hidesection").hide();
+        var currentQuesObj;
+        var userAttempt;
+        var strfinal = "";
+        var tempNo = 0;
+        strfinal += "<div id='questionResultAll' class='questionMainArea questionResult'>";
+        strfinal += "<div class='questionTitle'>File " + page.val + " - Results</div>";
+        strfinal += "<div class='pagetitle'>Check your answer. Look again at the Student Book and Workbook for help.</div>";
+        strfinal += "<div class='questionarea'>";
+        strfinal += "<div class='resultTitle'>File " + page.val/*(Number(page.curFileID) + 1)*/ + " - Progress Check</div>";
+        userAttempt = page.storeUserData["task_" + page.curFileID];
+        for (var i = 0; i < page.questionsXMLObj.len; i++) {
+            currentQuesObj = page.questionsXMLObj["ques_" + i];
+            var userAttemAns = userAttempt.userAttemptMcq[i];
+            // console.log(userAttemAns);
+            if (userAttempt.userAttemptMcq[i] == currentQuesObj.correctAns) {
+                strfinal += "<div class='questiongroup correctUserAns'>";
+                var imgchek="<img src='content/images/shell/Tick.png' />"
+            } else {
+                strfinal += "<div class='questiongroup'>";
+                var imgchek="<img src='content/images/shell/Cross.png' />"
+
+            }
+            // strfinal += "<div class='questiontxt'><span>" + currentQuesObj.label + " </span><label class='text'>" + currentQuesObj.sentence + "</label><em class='useranswertxt'>*" + userAttempt.userAttemptMcqText[i] + "*</em>" + "</div>";
+            strfinal += "<div class='questiontxt'><span>" + currentQuesObj.label + " </span><label class='text'>" + imgchek + currentQuesObj.sentence + "</label><em class='useranswertxt'>*" + currentQuesObj.options[userAttempt.userAttemptMcq[i] - 1] + "*</em>" + "</div>";
+            strfinal += "<div class='optionsgroup'>";
+            var optionLen = currentQuesObj.options.length;
+            if (userAttempt.userAttemptMcq[i] != currentQuesObj.correctAns) {
+                for (var j = 0; j < optionLen; j++) {
+                    if (currentQuesObj.correctAns == j + 1) {
+                        strfinal += "<div class='option correct'><label for='option" + j + "'><img src='content/images/shell/Tick.png' />" + currentQuesObj.options[j] + "</label></div>";
+                    } else {
+                        strfinal += "<div class='option'><label for='option" + j + "'>" + currentQuesObj.options[j] + "</label></div>";
+                    }
+                }
+            }
+            strfinal += "</div>";
+            strfinal += "<div class='unittxt'>" + currentQuesObj.units + "</div>";
+            strfinal += "</div>";
+        }
+
+     /*   strfinal += "<div class='resultTitle'>File " + (Number(page.curFileID) + 1) + " - Challenge</div>";*/
+
+        for (var i = 0; i < page.questionsChallengeXMLObj.len; i++) {
+
+            cuquesXMLObj = {};
+            cuquesXMLObj = page.questionsChallengeXMLObj["ques_" + i];
+
+            if (userAttempt.userAttemptChallenge[i] == cuquesXMLObj.correctAns) {
+                strfinal += "<div class='questiongroup correctUserAns'>";
+                // strfinal += "<div class='questiontxt'><span>" + cuquesXMLObj.label + " </span><div class='text'>" + cuquesXMLObj.sentence + "<b>" + userAttempt.userAttemptChallengeText[i] + "</b></div></div>";
+                strfinal += "<div class='questiontxt'><span>" + cuquesXMLObj.label + " </span><div class='text'><img src='content/images/shell/Tick.png' />" + cuquesXMLObj.sentence + " <b>* " + cuquesXMLObj.options[userAttempt.userAttemptChallenge[i] - 1] + " *</b></div></div>";
+
+            } else {
+
+                strfinal += "<div class='questiongroup'>";
+                // strfinal += "<div class='questiontxt'><span>" + cuquesXMLObj.label + " </span><div class='text'>" + cuquesXMLObj.sentence + "<b>" + userAttempt.userAttemptChallengeText[i] + "</b></div></div>";
+                strfinal += "<div class='questiontxt'><span>" + cuquesXMLObj.label + " </span><div class='text'><img src='content/images/shell/Cross.png' />" + cuquesXMLObj.sentence + " <b>* " + cuquesXMLObj.options[userAttempt.userAttemptChallenge[i] - 1] + " *</b></div></div>";
+                strfinal += "<div class='questiontxt rightAnswer'><div class='text'><img src='content/images/shell/Tick.png' />" + cuquesXMLObj.sentence + "<b> " + cuquesXMLObj.correctAnstxt + "</b></div></div>";
+            }
+
+            strfinal += "<div class='unittxt'>" + cuquesXMLObj.units + "</div>";
+            strfinal += "</div>";
+        }
+
+        strfinal += "</div>";
+        strfinal += "<div class='submitbutton'><input id='print' class='button' type='submit' value='Print' /><input id='Take Another test' class='button' type='submit' value='To Results' onclick='page.takeAnotherTest()' /><span class='totalscore'>Score:<u>" + parseInt(page.storeUserData["task_" + page.curFileID].userTotalScore) + " / 60</u></span> </div>";
+        strfinal += "</div>";
+        $(".outersection").append(strfinal);
+
+        $("#print").on("click", function() {
+            var audio = document.getElementById("mcqSound");
+            audio.play();
+            window.print();
+        });
+
+        // console.log("viewResults submitMcqTest", page.storeUserData);
+        SetSuspendedData(page.storeUserData);
+        page.otherScormVars();
+
+    },
+
+    viewResultsMcq: function() {
+        $(window).scrollTop(0);
+        var audio = document.getElementById("mcqSound");
+        audio.play();
+        $("#questionMcq").hide();
+        $(".popupContainer").hide();
+        $("#questionResultChallenge,#questionResultAll").remove();
+        var currentQuesObj;
+        var strfinal = "";
+        var tempNo = 0;
+        strfinal += "<div id='questionResult' class='questionMainArea questionResult' >";
+
+        strfinal += "<div class='questionTitle'>File " + page.val + " - Results</div>";
+
+        strfinal += "<div class='pagetitle'>Check your answer. Look again at the Student Book and Workbook for help.</div>";
+        strfinal += "<div class='questionarea'>";
+        strfinal += "<div class='resultTitle'>File " + page.val/*(Number(id) + 1)*/ + " - Progress Check</div>";
+
+        for (var i = 0; i < page.questionsXMLObj.len; i++) {
+            currentQuesObj = page.questionsXMLObj["ques_" + i];
+            if (currentQuesObj.userAnswer == currentQuesObj.correctAns) {
+                strfinal += "<div class='questiongroup correctUserAns'>";
+                var imgchek="<img src='content/images/shell/Tick.png' />"
+            } else {
+                strfinal += "<div class='questiongroup'>";
+                 var imgchek="<img src='content/images/shell/Cross.png' />"
+
+            }
+            strfinal += "<div class='questiontxt'><span>" + currentQuesObj.label + " </span><label class='text'>" + imgchek + currentQuesObj.sentence + "</label><em class='useranswertxt'> *" + currentQuesObj.userAnswerText + "*</em>" + "</div>";
+            strfinal += "<div class='optionsgroup'>";
+
+            var optionLen = currentQuesObj.options.length;
+            if (currentQuesObj.userAnswer != currentQuesObj.correctAns) {
+                for (var j = 0; j < optionLen; j++) {
+                    if (currentQuesObj.correctAns == j + 1) {
+                        strfinal += "<div class='option correct'><label for='option" + j + "'><img src='content/images/shell/Tick.png' />" + currentQuesObj.options[j] + "</label></div>";
+                    } else {
+                        strfinal += "<div class='option'><label for='option" + j + "'>" + currentQuesObj.options[j] + "</label></div>";
+
+                    }
+                }
+            }
+            strfinal += "</div>";
+            strfinal += "<div class='unittxt'>" + currentQuesObj.units + "</div>";
+            strfinal += "</div>";
+        }
+        strfinal += "</div>";
+        strfinal += "<div class='submitbutton'><input id='print' class='button' type='submit' value='Print' /><input id='Take Another test' class='button' type='submit' value='To Results' onclick='page.takeAnotherTest()' /> <span class='totalscore'> Score:<u>" + parseInt(page.countMcq) + " / " + page.questionsXMLObj.len * 2 + "</u></span> </div>";
+        strfinal += "</div>";
+        $(".outersection").append(strfinal);
+
+        $("#print").on("click", function() {
+            var audio = document.getElementById("mcqSound");
+            audio.play();
+
+            window.print();
+
+        });
+    },
+
+   /* viewResultsChallenge: function() {
+        $(window).scrollTop(0);
+        var audio = document.getElementById("ChallengeSound");
+        audio.play();
+        $(".popupContainer").hide();
+        $(".ChallengeTest").empty();
+        $("#questionResultAll,#questionResult").remove();
+        var currentQuesObj;
+        var strfinal = "";
+        var tempNo = 0;
+        strfinal += "<div id='questionResultChallenge' class='questionMainArea questionResult'>";
+        strfinal += "<div class='questionTitle'>File " + page.val + " - Results</div>";
+        strfinal += "<div class='pagetitle'>Check your answer. Look again at the Student Book and Workbook for help.</div>";
+        strfinal += "<div class='questionarea'>";
+        strfinal += "<div class='resultTitle'>File " + (Number(id) + 1) + " - Challenge</div>";
+
+        for (var i = 0; i < page.questionsChallengeXMLObj.len; i++) {
+
+            cuquesXMLObj = {};
+            cuquesXMLObj = page.questionsChallengeXMLObj["ques_" + i];
+
+            if (cuquesXMLObj.userAnswer == cuquesXMLObj.correctAns) {
+                strfinal += "<div class='questiongroup correctUserAns'>";
+                strfinal += "<div class='questiontxt'><span>" + cuquesXMLObj.label + " </span><div class='text'><img src='content/images/shell/Tick.png' />" + cuquesXMLObj.sentence + " <b>* " + cuquesXMLObj.userAnswerTxt + " *</b></div></div>";
+
+            } else {
+
+                strfinal += "<div class='questiongroup'>";
+                strfinal += "<div class='questiontxt'><span>" + cuquesXMLObj.label + " </span><div class='text'><img src='content/images/shell/Cross.png' />" + cuquesXMLObj.sentence + " <b>* " + cuquesXMLObj.userAnswerTxt + " *</b></div></div>";
+                strfinal += "<div class='questiontxt rightAnswer'><div class='text'><img src='content/images/shell/Tick.png' />" + cuquesXMLObj.sentence + " <b>* " + cuquesXMLObj.correctAnstxt + " *</b></div></div>";
+            }
+
+            strfinal += "<div class='unittxt'>" + cuquesXMLObj.units + "</div>";
+            strfinal += "</div>";
+        }
+
+        strfinal += "</div>";
+        strfinal += "<div class='submitbutton'><input id='print' class='button' type='submit' value='Print' /><input id='Take Another test' class='button' type='submit' value='To Results' onclick='page.takeAnotherTest()' /><span class='totalscore'>Score:<u>" + parseInt(page.countChallenge) + " / " + page.questionsChallengeXMLObj.len * 2 + "</u></span> </div>";
+        strfinal += "</div>";
+        $(".outersection").append(strfinal);
+
+        $("#print").on("click", function() {
+            var audio = document.getElementById("mcqSound");
+            audio.play();
+            window.print();
+        });
+    },*/
+
+    isCourseComplete: function() {
+        for (var i = 0; i < page.fileLen; i++) {
+            if (!page.storeUserData["task_" + i].userAttemped) {
+                page.obtainedTotalScore = 0;
+                return false;
+            } else {
+              /* for multiple files together// page.obtainedTotalScore += page.storeUserData["task_" + i].userTotalScore; */
+                page.obtainedTotalScore = page.storeUserData["task_" + i].userTotalScore;
+            }
+        }
+        page.obtainedTotalScore = parseInt(page.obtainedTotalScore / page.fileLen);
+        return true;
+    },
+    otherScormVars: function() {
+        if (page.isCourseComplete()) {
+            /*percentage*/
+            page.obtainedTotalScore = parseInt((page.obtainedTotalScore/60)*100);
+            /**/
+            ReportScore(page.obtainedTotalScore, 100, 0);
+            SetLessonStatus("completed");
+        }
+
+    },
+
+    sendInteractionsData: function(Qno, stu_res, result) {
+        // console.log(Qno, stu_res, result);
+        doLMSSetValue("cmi.interactions." + page.scoIndex + ".id", "Q_" + (parseInt(page.curFileID) + 1).toString() + "_" + Qno.toString());
+        /*read only*/
+        /* doLMSSetValue("cmi.interactions.n.objectives",objective);*/
+        /*not req*/
+        /* doLMSSetValue("cmi.interactions."+page.scoIndex+".time",time);*/ /*hh:mm:ss.s*/
+        doLMSSetValue("cmi.interactions." + page.scoIndex + ".type", "choice"); /*fixed*/
+        /*read only*/
+        /*doLMSSetValue("cmi.interactions.n.correct_responses",page.scoIndex);*/
+        /*not req*/
+        /* doLMSSetValue("cmi.interactions.n.weighting",page.scoIndex);*/
+        doLMSSetValue("cmi.interactions." + page.scoIndex + ".student_response", stu_res);
+        doLMSSetValue("cmi.interactions." + page.scoIndex + ".result", result);
+        /*not req*/
+        /*doLMSSetValue("cmi.interactions."+page.scoIndex+".latency",page.scoIndex);*/
+        page.scoIndex++;
+        // console.log(page.scoIndex);
+        // console.log((parseInt(page.curFileID) + 1).toString() + "_" + Qno.toString());
+
+    }
+
+   /* setScoIndex : function(qNo){
+        var fileIdx = page.curFileID;
+        var QIdx ;/!*currentQuesNumber*!/
+        page.scoIndex = fileIdx + "00" + qNo.toString();
+        console.log("scoIndex",page.scoIndex);
+    }*/
+
+
+};
