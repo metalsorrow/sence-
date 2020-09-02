@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <title>Document</title>
+    <style>
+        img{
+            width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <div id="app" >
+        <div class="container p-5 bg-light">
+            <h1>Correo</h1>
+            <form class="row my-5">
+                <div class="col">
+                    <p>
+                        Nombre
+                        <input required type="text" name="nombre" v-model="nombre" class="form-control" >
+                    </p>
+                    <p>
+                        Edad
+                        <input required type="number" name="edad" v-model="edad" class="form-control" >
+                    </p>
+                    <h3>
+
+                        {{getData}}
+                    </h3>
+                </div>
+            </form>
+            <form class="row my-5">
+                <div class="col">
+                    <h2>Dame tu informacion</h2>
+                    <p>
+                        Nombre
+                        <input required type="text" name="nombre2" v-model="nombre2" class="form-control" >
+                    </p>
+                    <p>
+                        Apellido
+                        <input required type="text" name="apellido" v-model="apellido" class="form-control" >
+                    </p>
+                    <p>
+                        Rut
+                        <input required type="text" name="rut" v-model="rut" class="form-control" >
+                    </p>
+                    <p>
+                        Email
+                        <input required type="email" name="email" v-model="email" class="form-control" >
+                    </p>
+                    <p>
+                        Direccion
+                        <input required type="text" name="direccion" v-model="direccion" class="form-control" >
+                    </p>
+                    <h3>
+                        {{getPersona}}
+                    </h3>
+                    <h5>
+                        {{getDetalle}}
+                    </h5>
+                </div>
+            </form>
+        </div>
+
+    </div>     
+
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
